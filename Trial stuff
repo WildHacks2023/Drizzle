@@ -1,0 +1,39 @@
+from tkinter import Canvas, Tk
+import project_utilities
+import time
+import random
+import math
+gui = Tk()
+gui.title('Trial Stuff')
+
+# initialize canvas:
+window_width = gui.winfo_screenwidth()
+window_height = gui.winfo_screenheight()
+the_canvas = Canvas(gui, width=1000, height=1000, background='lightcyan')
+the_canvas.pack()
+the_canvas.focus_set()
+
+def make_oval(the_canvas, center_x, center_y, radius_x, radius_y, color="brown", tag="", outline="black"):
+    the_canvas.create_oval(
+        center_x - radius_x, center_y + radius_y, #bottom left-coordinate
+        center_x + radius_x, center_y - radius_y, #top right-coordinate
+        fill=color, tags=tag, outline=outline)
+    
+
+
+
+def move_object_in_circle(canvas, tag, center, radius, speed):
+    # Define the starting angle and the step size for the circle motion.
+    angle = 0
+    while angle < 720:
+        # Calculate the x and y coordinates of the circle at the current angle.
+        x = center[0] + math.cos(angle) * radius
+        y = center[1] + math.sin(angle) * radius
+
+        # Update the position of the circle object.
+        project_utilities.update_position(canvas, tag, x = x, y = y)
+        # Increment the angle by the step size and sleep for a short time.
+        angle = angle + .1
+        angle %= 2 * math.pi
+        canvas.update()
+        canvas.after(int(1000 / speed))
